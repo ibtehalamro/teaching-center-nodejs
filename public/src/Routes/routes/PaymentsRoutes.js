@@ -1,0 +1,10 @@
+// import express from "express";
+// import PaymentController from "../../MVC/Controller/PaymentController.js";
+// import PaymentService from "../../MVC/Service/PaymentService.js";
+// import PaymentRepository from '../../MVC/Repository/PaymentRepository.js';
+// const paymentRoutes = express.Router();
+// const paymentRepository = new PaymentRepository();
+// const paymentService = new PaymentService(paymentRepository);
+// const paymentController = new PaymentController(paymentService);
+// paymentRoutes.post("", paymentController.addStudentPaymentToSection);
+// export default paymentRoutes;

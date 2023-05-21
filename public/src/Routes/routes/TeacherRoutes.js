@@ -1,0 +1,14 @@
+// import express from "express";
+// import TeacherController from "../../MVC/Controller/TeacherController.js";
+// import TeacherService from "../../MVC/Service/TeacherService.js";
+// import TeacherRepository from '../../MVC/Repository/TeacherRepository.js';
+// const teacherRoutes = express.Router();
+// const teacherRepository = new TeacherRepository();
+// const teacherService = new TeacherService(teacherRepository);
+// const teacherController = new TeacherController(teacherService);
+// teacherRoutes.post("", teacherController.addTeacher);
+// teacherRoutes.delete("", teacherController.deleteTeacherById);
+// teacherRoutes.get("/list", teacherController.getTeachersList);
+// teacherRoutes.get("/:id", teacherController.getTeacherById);
+// teacherRoutes.put("/:id", teacherController.updateTeacher);
+// export default teacherRoutes;
