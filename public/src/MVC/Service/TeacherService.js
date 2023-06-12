@@ -1,52 +1,43 @@
-// import Address from "../Model/helpers/Address.js";
-// import Name from "../Model/helpers/Name.js";
-// import Teacher from "../Model/Person/Teacher.js";
-// import Common from "../Model/common/common.js";
-// import ResponseEnums from "../Enums/ResponseEnums.js";
-// class TeacherService {
-//     createTeacherFromRequest(req) {
-//         const person = req.body;
-//         const { firstName, secondName, lastName } = person.name;
-//         const teacherName = new Name(firstName, secondName, lastName);
-//         const teacherAddress = new Address(person.address.city);
-//         const teacher = new Teacher(teacherName, teacherAddress, person.mobileNumber);
-//         return teacher;
-//     }
-//     teacherRepository;
-//     constructor(teacherRepository) {
-//         this.teacherRepository = teacherRepository;
-//     }
-//     update(id, teacher) {
-//         return this.teacherRepository.update(id, teacher);
-//     }
-//     async getByName(req) {
-//         const { firstName, secondName, lastName } = req.body.name;
-//         const teacherName = new Name(firstName, secondName, lastName);
-//         const teacherByName = await this.teacherRepository.getByName(teacherName);
-//         const teacher = Common.dbObjectToObject(teacherByName);
-//         if (teacher.length > 0) {
-//             return teacher[0];
-//         }
-//         return undefined;
-//     }
-//     async addStudent(req) {
-//         const teacherByName = await this.getByName(req);
-//         if (teacherByName) {
-//             return Common.apiResponse(ResponseEnums.fail, "Teacher already exists");
-//         }
-//         const teacher = this.createTeacherFromRequest(req);
-//         const result = await this.teacherRepository.addStudent(teacher);
-//         return Common.apiResponse(ResponseEnums.success, "Teacher added", { id: result });
-//     }
-//     delete(id) {
-//         return this.teacherRepository.deleteById(id);
-//     }
-//     get(id) {
-//         return this.teacherRepository.getById(id);
-//     }
-//     async getTeachersList(req) {
-//         const teachers = await this.teacherRepository.getAll();
-//         return Common.apiResponse(ResponseEnums.success, "Teacher list", teachers);
-//     }
-// }
-// export default TeacherService;
+
+import { JSON_RESPONSE, ResponseStatus } from '../../utils/Response.js';
+import Teacher from '../Model/Person/Teacher.js';
+import TeacherRepository from '../Repository/Teacher/TeacherRepository.js';
+
+class TeacherService {
+    teacherRepository = new TeacherRepository();
+
+    async saveNewTeacher(req) {
+        try {
+            const teacher = Teacher.getTeacherFromRequestBody(req.body);
+            const result = await this.teacherRepository.saveNewTeacher(teacher);
+            console.log('result', result)
+            return JSON_RESPONSE(ResponseStatus.success, "Teacher added", { id: result });
+        } catch (error) {
+            if (error.code == "ER_DUP_ENTRY") {
+                return JSON_RESPONSE(ResponseStatus.fail, "Teacher already exists.");
+            } else {
+                throw error;
+            }
+        }
+    }
+
+    async getTeachersList(req) {
+        try {
+            const teachers = await this.teacherRepository.getTeachersList();
+            return JSON_RESPONSE(ResponseStatus.success, "Teachers list", Teacher.getStudentJSONFromDBResult(teachers));
+        } catch (error) {
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't reach Teachers list.");
+        }
+    } 
+
+    async getTeacherSectionsByTeacherId(req){
+        const { teacherId } = req.params;  
+        try {
+            const sections = await this.teacherRepository.getTeacherSectionsByTeacherId(teacherId);
+            return JSON_RESPONSE(ResponseStatus.success, "Teachers list", sections);
+        } catch (error) {
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't reach Teachers list.");
+        }
+    }
+}
+export default TeacherService;

@@ -20,7 +20,7 @@ class Person {
     getAddress() {
         return this.address;
     }
-    setId(id) {
+    setId(id) { 
         this.id = id;
     }
     getId = () => {

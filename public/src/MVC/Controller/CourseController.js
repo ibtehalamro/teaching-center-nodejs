@@ -32,10 +32,22 @@ export default class CourseController {
             const response = await this.courseService.getCoursesList(req);
             res.json(response);
         }
-        catch (err) {
+        catch (err) { 
             res.json(JSON_RESPONSE(ResponseStatus.error, "Error while getting courses list."));
         }
     };
+
+    getCourseSectionsList  = async (req, res) => {
+        const courseId = req.params.courseId;
+        try {
+            const response = await this.courseService.getCourseSectionsList(courseId);
+            res.json(response);
+        }
+        catch (err) {
+            res.json(JSON_RESPONSE(ResponseStatus.error, "Error while getting courses list."));
+        } 
+    };
+    
 //     getCourseById = (req, res) => {
 //         const { id } = req.params;
 //         const course = this.courseService.get(parseInt(id));

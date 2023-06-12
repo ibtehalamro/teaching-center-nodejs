@@ -7,6 +7,7 @@ const courseController = new CourseController();
 //GET 
 courseRoutes.get("/courseTypes", courseController.getCourseTypes);
 courseRoutes.get("/list", courseController.getCoursesList);
+courseRoutes.get("/:courseId/sections", courseController.getCourseSectionsList);
 
 //POST
 courseRoutes.post("", courseController.saveNewCourseData);
@@ -17,3 +18,4 @@ courseRoutes.post("", courseController.saveNewCourseData);
 // courseRoutes.get("/:id", courseController.getCourseById);
 // courseRoutes.put("/:id", courseController.updateCourse);
 export default courseRoutes;
+

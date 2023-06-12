@@ -1,6 +1,3 @@
-// import Common from "../Model/common/common.js";
-// import ResponseStatus from "../Enums/ResponseStatus.js";
-// import Course from "../Model/Course/Course.js";
 import { JSON_RESPONSE, ResponseStatus } from '../../utils/Response.js';
 import Course from '../Model/Course/Course.js';
 import CourseRepository from '../Repository/Course/CourseRepository.js';
@@ -24,9 +21,9 @@ class CourseService {
         }
      }
 
+
      getCourseTypesJSON(result){
        return result?.map(type=>{return {value:type.value,label:type.description};});
-        
      }
 
     async saveNewCourseData(req) {
@@ -52,19 +49,15 @@ class CourseService {
         }
     }
 
-//     update(id, course) {
-//         return this.courseRepository.update(id, course);
-//     }
-//     delete(id) {
-//         return this.courseRepository.deleteById(id);
-//     }
-//     get(id) {
-//         return this.courseRepository.getById(id);
-//     }
+    async getCourseSectionsList(courseId) {
+        try {
+            const courseSections = await this.courseRepository.getCourseSectionsList(courseId);
+            return JSON_RESPONSE(ResponseStatus.success, "Course sections list", courseSections);
+        } catch (error) {
+            throw error;
+        }
+    }
 
-//     async getCourseSectionsList(id) {
-//         const courses = await this.courseRepository.getSectionsList(id);
-//         return JSON_RESPONSE(ResponseStatus.success, "Course list", courses);
-//     }
+ 
 }
 export default CourseService;

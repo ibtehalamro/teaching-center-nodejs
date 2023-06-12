@@ -7,7 +7,7 @@ class Student extends Person {
     constructor(name, address, mobileNumber) {
         super(name, address, mobileNumber);
     }
-
+    
     static getStudentFromRequestBody(person) {
         const { firstName, parentName, grandParentName, familyName } = person.name;
         const studentName = new FullNameManager(firstName, parentName, grandParentName, familyName);

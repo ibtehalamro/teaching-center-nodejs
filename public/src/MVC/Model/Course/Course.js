@@ -18,5 +18,11 @@ class Course {
         const { name, type } = course;
         return new Course(name, type);
     }
+
+    
+    static getCoursesNamesJSONFromDBResult(dbResult) {
+        const transformedList = dbResult?.map(course =>{return {value:course.id,label:course.courseType }})
+        return transformedList;
+    }
 }
 export default Course;

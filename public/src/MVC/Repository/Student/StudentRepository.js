@@ -1,11 +1,9 @@
-import con from "../../../server/DB_connection.js";
+import con, { executeQuery } from "../../../server/DB_connection.js";
 import Student from "../../Model/Person/Student.js";
-import { GET_NUMBER_OF_STUDENTS_NOT_DELETED, GET_STUDENTS_LIST, GET_STUDENT_BY_ID, INSERT_NEW_STUDENT, SOFT_DELETE_STUDENT_BY_ID, UPDATE_STUDENT_BY_ID } from "./StudentQueries.js";
+import { GET_NUMBER_OF_STUDENTS_NOT_DELETED, GET_STUDENTS_LIST, GET_STUDENT_BY_ID, INSERT_NEW_STUDENT, SOFT_DELETE_STUDENT_BY_ID, STUDENT_QUERIES, UPDATE_STUDENT_BY_ID } from "./StudentQueries.js";
 
 class StudentRepository {
-    students = [];
-    constructor() { }
-
+  
     saveNewStudent(student) {
         return new Promise((resolve, reject) => {
             con.query(INSERT_NEW_STUDENT, [
@@ -49,7 +47,7 @@ class StudentRepository {
                     console.error(`Error occurred while fetching the student with id = ${studentId}: `, error);
                     reject(error);
                 } else {
-                    console.log(`Successfully fetched the student with id = ${studentId}: `, result);
+                    // console.log(`Successfully fetched the student with id = ${studentId}: `, result);
                     resolve(result);
                 }
             });
@@ -79,61 +77,18 @@ class StudentRepository {
         });
       }
       
+      getStudentAssignedSections(studentId){
+        return executeQuery( STUDENT_QUERIES.GET_STUDENT_ASSIGNED_SECTIONS, studentId)
+      }
 
 
-    // getByName = (name) => {
-    //     const sql = `SELECT * FROM students WHERE firstName = ? and secondName = ? AND lastName = ? LIMIT 1`;
-    //     let pro = new Promise((resolve, reject) => {
-    //         con.query(sql, [name.getFirstName(), name.getSecondName(), name.getLastName()], (err, result) => {
-    //             if (err)
-    //                 throw err;
-    //             resolve(result);
-    //         });
-    //     });
-    //     return pro;
-    // };
+      getAllSectionsWithStudentStatusPromise(studentId){
+        return executeQuery(STUDENT_QUERIES.GET_ALL_SECTIONS_WITH_STUDENT_STATUS,[studentId]);
+      }
 
-    // deleteById(id) {
-    //     const sql = SOFT_DELETE_STUDENT_BY_ID;
-    //     let pro = new Promise((resolve, reject) => {
-    //         con.query(sql, [id], (err, result) => {
-    //             if (err) {
-    //                 reject(err);
-    //                 return false;
-    //             }
-    //             resolve(result);
-    //         });
-    //     });
-    //     return true;
-    // }
-
-
-    // getSectionsRelatedToStudent(studentId) {
-    //     const sql = `SELECT * FROM student_section ss
-    // LEFT JOIN section_course sec ON (sec.sectionId= ss.sectionId )
-    //  LEFT JOIN courses cr ON ( cr.id = sec.courseId)
-    //  LEFT JOIN sections s ON ( s.id = sec.sectionId)
-    //  LEFT JOIN teachers t ON ( t.id = s.teacherId) 
-    // WHERE ss.studentId=?`;
-    //     let pro = new Promise((resolve, reject) => {
-    //         con.query(sql, [studentId], (err, result) => {
-    //             if (err)
-    //                 throw err;
-    //             resolve(result);
-    //         });
-    //     });
-    //     return pro;
-    // }
-    // getNumberOfStudentsNotDeleted() {
-    //     const sql = GET_NUMBER_OF_STUDENTS_NOT_DELETED;
-    //     let pro = new Promise((resolve, reject) => {
-    //         con.query(sql, (err, result) => {
-    //             if (err)
-    //                 throw err;
-    //             resolve(result);
-    //         });
-    //     });
-    //     return pro;
-    // }
+     assignSectionsToStudent(studentId,selectedSection,discount){
+        return executeQuery(STUDENT_QUERIES.ASSIGN_SECTION_TO_STUDENT,[studentId,selectedSection,discount])
+      }
+   
 }
 export default StudentRepository;

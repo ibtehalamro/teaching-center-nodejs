@@ -9,66 +9,66 @@ import SectionRepository from '../Repository/Section/SectionRepository.js';
  */
 class SectionService {
     sectionRepository = new SectionRepository();
-    constructor() {
-    }
+
     async getSectionsList(req) {
         try {
             const sections = await this.sectionRepository.getSectionsList();
             return JSON_RESPONSE(ResponseStatus.success, "Sections list", Section.getSectionJSONFromDBResult(sections));
         } catch (error) {
+            console.log('service error', error)
             return JSON_RESPONSE(ResponseStatus.fail, "Can't reach sections list.");
         }
     }
-//     createSectionFromRequest(req) {
-//         const { courseId, startDate, endDate, startTime, endTime, teacherId, sectionId } = req.body;
-//         const section = new Section(startDate, endDate, teacherId, startTime, endTime, courseId);
-//         section.setId(sectionId);
-//         return section;
-//     }
-//     async add(req) {
-//         const section = this.createSectionFromRequest(req);
-//         const result = await this.sectionRepository.add(section);
-//         return Common.apiResponse(ResponseEnums.success, "Section added", { id: result });
-//     }
-//     update(id, section) {
-//         return this.sectionRepository.update(id, section);
-//     }
-//     async getBySectionNameAndTeacherId(req) {
-//         const { name } = req.body;
-//         const sectionByName = await this.sectionRepository.getBySectionNameAndTeacherId(name);
-//         const section = Common.dbObjectToObject(sectionByName);
-//         if (section.length > 0) {
-//             return section[0];
-//         }
-//         return undefined;
-//     }
-//     delete(id) {
-//         return this.sectionRepository.deleteById(id);
-//     }
-//     get(id) {
-//         return this.sectionRepository.getById(id);
-//     }
+    async createNewSection(req) {
+        try {
+            const section = Section.createSectionFromRequest(req);
+            const result = await this.sectionRepository.createNewSection(section);
+            return JSON_RESPONSE(ResponseStatus.success, "Section added", { id: result?.insertId });
+        } catch (error) {
+            console.log('section service', error)
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't create new section.");
+        }
+    }
 
-//     async getCurrentActiveSectionsList(req) {
-//         const sections = await this.sectionRepository.getActiveSectionsList();
-//         return Common.apiResponse(ResponseEnums.success, "Active section list", sections);
-//     }
-//     async assignStudentToSection(req) {
-//         const { studentId, sectionId } = req.body;
-//         let result;
-//         try {
-//             result = await this.sectionRepository.assignStudentToSection(sectionId, studentId);
-//         }
-//         catch (error) {
-//             if (error.code == "ER_DUP_ENTRY") {
-//                 return Common.apiResponse(ResponseEnums.error, "Student is already assigned to course");
-//             }
-//         }
-//         return Common.apiResponse(ResponseEnums.success, "Student to section assigned", { id: result });
-//     }
-//     async getStudentsRelatedToSection(sectionID) {
-//         const result = await this.sectionRepository.getStudentsRelatedToSection(sectionID);
-//         return Common.apiResponse(ResponseEnums.success, "Students related to section ", { students: result });
-//     }
+
+
+
+
+    async getStudentsWithSectionStatus(req) {
+        const sectionId = req.params.sectionId;
+        try {
+            const students = await this.sectionRepository.getStudentsWithSectionStatus(sectionId);
+            return JSON_RESPONSE(ResponseStatus.success, "Students list", students);
+        } catch (error) {
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't reach students list.");
+        }
+    }
+
+    async assignStudentsToSectionBySectionId(req) {
+        const sectionId = req.params.sectionId;
+        console.log('sectionId', sectionId)
+        const { selectedStudent, discount } = req.body;
+        try {
+            const students = await this.sectionRepository.assignStudentsToSectionBySectionId(sectionId, selectedStudent, discount);
+            return JSON_RESPONSE(ResponseStatus.success, "Students list", students);
+        } catch (error) {
+            console.log('service error', error)
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't reach students list.");
+        }
+    }
+
+    async getSectionStudentsBySectionId(req) {
+        const sectionId = req.params.sectionId;
+
+        try {
+            const students = await this.sectionRepository.getSectionStudentsBySectionId(sectionId);
+            return JSON_RESPONSE(ResponseStatus.success, "Students list", students);
+        } catch (error) {
+            console.log('service error', error);
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't retrieve students list.");
+        }
+    }
+
+
 }
 export default SectionService;

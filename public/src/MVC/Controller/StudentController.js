@@ -55,19 +55,39 @@ export default class StudentController {
         }
     };
 
-    // deleteStudentById = (req, res) => {
-    //     const { id } = req.params;
-    //     const isDeleted = this.studentService.delete(parseInt(id));
-    //     isDeleted ? res.json({ status: ResponseEnums.success }) : res.json({ status: ResponseEnums.error });
-    // };
+    getStudentAssignedSections =async(req,res)=>{
+        try {
+            const studentSections = await this.studentService.getStudentAssignedSections(req);
+            res.json(studentSections);
+        }
+        catch (err) {
+            const response = JSON_RESPONSE(ResponseStatus.error, `error: error occurred while getting student with id => ${id} try again.`);
+            res.json(response);
+        }
+    }
 
-    // getSectionsRelatedToStudent = async (req, res) => {
-    //     const { id: studentId } = req.params;
-    //     const result = await this.studentService.getSectionsRelatedToStudent(studentId);
-    //     result ? res.json(result) : res.json({ status: ResponseEnums.fail });
-    // };
-    // getNumberOfStudentsNotDeleted = async (req, res) => {
-    //     const result = await this.studentService.getNumberOfStudentsNotDeleted();
-    //     result ? res.json(result) : res.json({ status: ResponseEnums.fail });
-    // };
+    getAllSectionsWithStudentStatusPromise=async(req,res)=>{
+        try {
+            const sections = await this.studentService.getAllSectionsWithStudentStatusPromise(req);
+            res.json(sections);
+        }
+        catch (err) {
+            console.log('controller err',  err)
+            const response = JSON_RESPONSE(ResponseStatus.error, `error: error occurred while getting sections try again.`);
+            res.json(response);
+        } 
+    }
+
+    assignSectionsToStudent=async(req,res)=>{
+        try {
+            const sections = await this.studentService.assignSectionsToStudent(req);
+            res.json(sections);
+        }
+        catch (err) {
+            console.log('controller err',  err)
+            const response = JSON_RESPONSE(ResponseStatus.error, `error: error occurred while getting sections try again.`);
+            res.json(response);
+        } 
+    }
+
 }

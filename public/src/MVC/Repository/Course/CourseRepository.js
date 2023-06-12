@@ -1,5 +1,5 @@
 import con from '../../../server/DB_connection.js';
-import { GET_COURSES_LIST, GET_COURSE_TYPES, SAVE_NEW_COURSE_DATA } from './CourseQueries.js';
+import { GET_COURSES_LIST, GET_COURSE_SECTION_BY_COURSE_ID, GET_COURSE_TYPES, SAVE_NEW_COURSE_DATA } from './CourseQueries.js';
 class CourseRepository {
 
     constructor(){
@@ -48,6 +48,23 @@ class CourseRepository {
         });
         return pro;
     }
+
+    getCourseSectionsList(courseId) {
+        let pro = new Promise((resolve, reject) => {
+            con.query(GET_COURSE_SECTION_BY_COURSE_ID, [courseId], (error, result) => {
+                if (error) {
+                    console.error(`Error occurred while getting course section list `, error);
+                    reject(error);
+                } else {
+                    console.log(`Successfully fetched course section list `, result);
+                    resolve(result);
+                }
+            });
+        });
+        return pro;
+    }
+
+    
 
 //     update(id, course) {
 //         throw new Error("Method not implemented.");

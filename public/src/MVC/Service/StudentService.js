@@ -60,29 +60,38 @@ class StudentService {
         }
     }
 
+    async getStudentAssignedSections(req){
+        const { studentId } = req.params;
+        try {
+            const studentSections = await this.studentRepository.getStudentAssignedSections(studentId);
+            return JSON_RESPONSE(ResponseStatus.success, "Student sections list", studentSections);
+        } catch (error) {
+            console.log('error', error)
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't reach student sections list.");
+        }
+    }
 
-    // async getByName(req) {
-    //     const { firstName, secondName, lastName } = req.body.name;
-    //     const studentName = new Name(firstName, secondName, lastName);
-    //     const studentByName = await this.studentRepository.getByName(studentName);
-    //     const student = Common.dbObjectToObject(studentByName);
-    //     if (student.length > 0) {
-    //         return Common.dbStudentRowToStudentObject(student[0]);
-    //     }
-    //     return undefined;
-    // }
-    // delete(id) {
-    //     return this.studentRepository.deleteById(id);
-    // }
+    async getAllSectionsWithStudentStatusPromise(req){
+        const {studentId}=req.params;
+        try {
+            const sections = await this.studentRepository.getAllSectionsWithStudentStatusPromise(studentId);
+            return JSON_RESPONSE(ResponseStatus.success, "sections list", sections);
+        } catch (error) {
+            console.log('error', error)
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't reach sections list.");
+        }
+    }
 
-
-    // async getSectionsRelatedToStudent(studentId) {
-    //     const sections = await this.studentRepository.getSectionsRelatedToStudent(studentId);
-    //     return JsonResponse(ResponseStatus.success, "Sections related to student", sections);
-    // }
-    // async getNumberOfStudentsNotDeleted() {
-    //     const studentsNumber = await this.studentRepository.getNumberOfStudentsNotDeleted();
-    //     return JsonResponse(ResponseStatus.success, "Number of students", studentsNumber[0].students);
-    // }
+    async assignSectionsToStudent(req){
+        const {studentId}=req.params;
+        const {selectedSection,discount}=req.body;
+        try {
+            const sections = await this.studentRepository.assignSectionsToStudent(studentId,selectedSection,discount);
+            return JSON_RESPONSE(ResponseStatus.success, "sections list", sections);
+        } catch (error) {
+            console.log('error', error)
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't reach sections list.");
+        }
+    }
 }
 export default StudentService;
