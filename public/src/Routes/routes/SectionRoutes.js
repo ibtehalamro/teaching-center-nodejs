@@ -21,10 +21,4 @@ SectionRoutes.get(SECTION_API_ROUTES.GET_STUDENTS_WITH_SECTION_STATUS, sectionCo
 SectionRoutes.post(SECTION_API_ROUTES.POST_SECTION_FORM, sectionController.createNewSection);
 SectionRoutes.post(SECTION_API_ROUTES.POST_SELECTED_STUDENTS_TO_SECTION, sectionController.assignStudentsToSectionBySectionId);
 
-// sectionRoutes.delete("", sectionController.deleteSectionById);
-// sectionRoutes.get("/currentSections", sectionController.getCurrentActiveSectionsList);
-// sectionRoutes.get("/list/student/:id", sectionController.getStudentsRelatedToSection);
-// sectionRoutes.post("/assignStudent", sectionController.assignStudentToSection);
-// sectionRoutes.get("/:id", sectionController.getSectionById);
-// sectionRoutes.put("/:id", sectionController.updateSection);
 export default SectionRoutes;

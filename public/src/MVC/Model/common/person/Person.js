@@ -3,6 +3,7 @@ class Person {
     fullName;
     address;
     mobileNumber;
+    gender;
     constructor(name, address, mobileNumber) {
         this.fullName = name;
         this.address = address;
@@ -32,5 +33,9 @@ class Person {
     getFullName = () => {
         return this.fullName;
     };
+    setGender(gender){
+        this.gender = gender;
+    }
+    getGender = () => {return this.gender;};
 }
 export default Person;

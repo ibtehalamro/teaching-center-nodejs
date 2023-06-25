@@ -29,6 +29,10 @@ studentRoutes.post(STUDENT_API_ROUTES.POST_MULTIPLE_SECTIONS_TO_STUDENT, student
 studentRoutes.put("/:id", studentController.updateStudentByStudentId);
 
 
+//delete
+studentRoutes.delete("/:studentId", studentController.softDeleteStudentByStudentId);
+
+
 
 
 

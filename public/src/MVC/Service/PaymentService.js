@@ -21,7 +21,6 @@ class PaymentService {
 
   async viewStudentPaymentsForSection(req) {
     const { studentId, sectionId } = req.params;
-
     try {
       const response = await this.paymentRepository.viewStudentPaymentsForSection(studentId, sectionId);
       return JSON_RESPONSE(ResponseStatus.success, "Student payments for the section", response);
@@ -32,10 +31,7 @@ class PaymentService {
   }
 
   async deleteStudentSectionPaymentByPaymentId(req) {
-    
-
-    const {paymentId,studentPaymentId} = req.query ;
-console.log('first', paymentId,studentPaymentId)
+        const {paymentId,studentPaymentId} = req.query ;
     try {
       const result = await this.paymentRepository.deleteStudentSectionPaymentByPaymentId(paymentId,studentPaymentId);
       if (result.affectedRows > 0) {

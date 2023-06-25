@@ -4,9 +4,7 @@ import { JSON_RESPONSE, ResponseStatus } from '../../utils/Response.js';
 
 class StudentService {
     studentRepository = new StudentRepository();
-    constructor() {
-    }
-    
+
     async saveNewStudent(req) {
         try {
             const student = Student.getStudentFromRequestBody(req.body);
@@ -34,7 +32,7 @@ class StudentService {
         try {
             let result = await this.studentRepository.getStudentById(id);
             if (result.length > 0) {
-                return JSON_RESPONSE(ResponseStatus.success, "Student data",Student.getStudentJSONFromDBResult(result)[0]);
+                return JSON_RESPONSE(ResponseStatus.success, "Student data", Student.getStudentJSONFromDBResult(result)[0]);
             }
             return JSON_RESPONSE(ResponseStatus.fail, "No Student found");
         }
@@ -60,7 +58,7 @@ class StudentService {
         }
     }
 
-    async getStudentAssignedSections(req){
+    async getStudentAssignedSections(req) {
         const { studentId } = req.params;
         try {
             const studentSections = await this.studentRepository.getStudentAssignedSections(studentId);
@@ -71,8 +69,8 @@ class StudentService {
         }
     }
 
-    async getAllSectionsWithStudentStatusPromise(req){
-        const {studentId}=req.params;
+    async getAllSectionsWithStudentStatusPromise(req) {
+        const { studentId } = req.params;
         try {
             const sections = await this.studentRepository.getAllSectionsWithStudentStatusPromise(studentId);
             return JSON_RESPONSE(ResponseStatus.success, "sections list", sections);
@@ -82,15 +80,27 @@ class StudentService {
         }
     }
 
-    async assignSectionsToStudent(req){
-        const {studentId}=req.params;
-        const {selectedSection,discount}=req.body;
+    async assignSectionsToStudent(req) {
+        const { studentId } = req.params;
+        const { selectedSection, discount } = req.body;
         try {
-            const sections = await this.studentRepository.assignSectionsToStudent(studentId,selectedSection,discount);
+            const sections = await this.studentRepository.assignSectionsToStudent(studentId, selectedSection, discount);
             return JSON_RESPONSE(ResponseStatus.success, "sections list", sections);
         } catch (error) {
             console.log('error', error)
             return JSON_RESPONSE(ResponseStatus.fail, "Can't reach sections list.");
+        }
+    }
+
+    async softDeleteStudentByStudentId (req){
+        const { studentId } = req.params;
+        console.log('studentId', studentId)
+        try {
+            const result = await this.studentRepository.softDeleteStudentByStudentId(studentId);
+            return JSON_RESPONSE(ResponseStatus.success, "result of delete student", result);
+        } catch (error) {
+            console.log('error', error)
+            return JSON_RESPONSE(ResponseStatus.fail, "Can't delete student");
         }
     }
 }

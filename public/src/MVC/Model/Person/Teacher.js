@@ -13,25 +13,27 @@ class Teacher extends Staff {
         const teacherMobileNumber = new MobileNumber(person.mobileNumber);
         const teacher = new Teacher(teacherName, teacherAddress, teacherMobileNumber);
         teacher.setId(person.id);
+        teacher.setGender(person.gender);
         return teacher;
     }
 
-    static getStudentJSONFromDBResult(dbResult){
-        const transformedList = dbResult?.map(student => {
+    static getTeacherJSONFromDBResult(dbResult){
+        const transformedList = dbResult?.map(teacher => {
             return {
-                id: student.id,
+                id: teacher.id,
                 name: {
-                    firstName: student.firstName,
-                    parentName: student.parentName,
-                    grandParentName: student.grandParentName,
-                    familyName: student.familyName
+                    firstName: teacher.firstName,
+                    parentName: teacher.parentName,
+                    grandParentName: teacher.grandParentName,
+                    familyName: teacher.familyName
                 },
                 address: {
-                    city: student.city
+                    city: teacher.city
                 },
                 mobileNumber: {
-                    number1: student.mobileNumber
-                }
+                    number1: teacher.mobileNumber
+                },
+                gender: teacher.gender
             };
         })
         return transformedList;
