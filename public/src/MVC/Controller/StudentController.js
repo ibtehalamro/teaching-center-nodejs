@@ -55,7 +55,7 @@ export default class StudentController {
         }
     };
 
-    getStudentAssignedSections =async(req,res)=>{
+    getStudentAssignedSections = async (req, res) => {
         try {
             const studentSections = await this.studentService.getStudentAssignedSections(req);
             res.json(studentSections);
@@ -66,28 +66,38 @@ export default class StudentController {
         }
     }
 
-    getAllSectionsWithStudentStatusPromise=async(req,res)=>{
+    getAllSectionsWithStudentStatusPromise = async (req, res) => {
         try {
             const sections = await this.studentService.getAllSectionsWithStudentStatusPromise(req);
             res.json(sections);
         }
         catch (err) {
-            console.log('controller err',  err)
+            console.log('controller err', err)
             const response = JSON_RESPONSE(ResponseStatus.error, `error: error occurred while getting sections try again.`);
             res.json(response);
-        } 
+        }
     }
 
-    assignSectionsToStudent=async(req,res)=>{
+    assignSectionsToStudent = async (req, res) => {
         try {
             const sections = await this.studentService.assignSectionsToStudent(req);
             res.json(sections);
         }
         catch (err) {
-            console.log('controller err',  err)
+            console.log('controller err', err)
             const response = JSON_RESPONSE(ResponseStatus.error, `error: error occurred while getting sections try again.`);
             res.json(response);
-        } 
+        }
     }
 
+    softDeleteStudentByStudentId = async (req, res) => {
+        try {
+            const result = await this.studentService.softDeleteStudentByStudentId(req);
+            res.json(result);
+        }
+        catch (err) {
+            const response = JSON_RESPONSE(ResponseStatus.error, `error: error occurred while deleting student with id => ${id} try again.`);
+            res.json(response);
+        }
+    }
 }

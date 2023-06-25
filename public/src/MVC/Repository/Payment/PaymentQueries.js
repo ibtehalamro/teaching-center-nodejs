@@ -23,6 +23,6 @@ WHERE
         'WHERE id = ?',
     INSERT_PAYMENT_VALUE: 'INSERT INTO payments (amount,currency) VALUES (?,?)',
     DELETE_STUDENT_SECTION_PAYMENT_BY_PAYMENT_ID: 'UPDATE \`student-payments\` ' +
-        'SET isDelet    ed = 1 ' +
+        'SET isDeleted = 1 ' +
         'WHERE id = ?',
 }

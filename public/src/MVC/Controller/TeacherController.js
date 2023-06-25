@@ -19,6 +19,18 @@ export default class TeacherController {
         }
     };
 
+    updateTeacherByTeacherId = async (req, res) => {
+        try {
+            const response = await this.teacherService.updateTeacherByTeacherId(req);
+            res.json(response);
+        }
+        catch (err) {
+            const errorMsg = 'error: error occurred while updating student try again.';
+            const response = JSON_RESPONSE(ResponseStatus.error, errorMsg);
+            res.json(response);
+        }
+    };
+
     getTeachersList = async (req, res) => {
         try {
             const response = await this.teacherService.getTeachersList(req);
@@ -32,16 +44,35 @@ export default class TeacherController {
     };
 
     getTeacherSectionsByTeacherId = async (req, res) => {
-
         try {      
            const sections = await this.teacherService.getTeacherSectionsByTeacherId(req);
-            console.log('sections', sections)
-          res.json(sections);
+           res.json(sections);
         } catch (err) {
           const errorMsg = 'Error occurred while getting teacher sections. Please try again.';
           const response = JSON_RESPONSE(ResponseStatus.error, errorMsg);
           res.json(response);
         }
       };
+
+      getTeacherById = async (req,res) => {
+        try {      
+            const teacher = await this.teacherService.getTeacherById(req);
+            res.json(teacher);
+         } catch (err) {
+           const errorMsg = 'Error occurred while getting teacher. Please try again.';
+           const response = JSON_RESPONSE(ResponseStatus.error, errorMsg);
+           res.json(response);
+         }
+      }
       
+      sofDeleteTeacherByTeacherId = async (req,res) => {
+        try {      
+            const teacher = await this.teacherService.sofDeleteTeacherByTeacherId(req);
+            res.json(teacher);
+         } catch (err) {
+           const errorMsg = 'Error occurred while deleting teacher. Please try again.';
+           const response = JSON_RESPONSE(ResponseStatus.error, errorMsg);
+           res.json(response);
+         }
+      }
 }
