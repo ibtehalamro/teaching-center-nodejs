@@ -23,6 +23,7 @@ class PaymentService {
     const { studentId, sectionId } = req.params;
     try {
       const response = await this.paymentRepository.viewStudentPaymentsForSection(studentId, sectionId);
+      console.log('response', response)
       return JSON_RESPONSE(ResponseStatus.success, "Student payments for the section", response);
     } catch (error) {
       console.error("Error occurred while fetching student payments for the section:", error);

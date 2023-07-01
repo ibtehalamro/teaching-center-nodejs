@@ -64,7 +64,7 @@ class PaymentRepository {
 
 
   viewStudentPaymentsForSection(studentId, sectionId) {
-    return executeQuery(PAYMENT_QUERIES.VIEW_STUDENT_PAYMENTS_FOR_SECTION, [studentId, sectionId]);
+    return executeQuery(PAYMENT_QUERIES.VIEW_STUDENT_PAYMENTS_FOR_SECTION, [sectionId, studentId]);
   }
 
   deleteStudentSectionPaymentByPaymentId(paymentId, studentPaymentId) {
